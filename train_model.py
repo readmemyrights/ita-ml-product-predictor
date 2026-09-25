@@ -1,29 +1,13 @@
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
-from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
-
-class TitleStatsExtractor(BaseEstimator, TransformerMixin):
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        titles = np.asarray(X).ravel()
-
-        lengths = np.array([len(t) for t in titles])
-        n_digits = np.array([sum(c.isdigit() for c in t) for t in titles])
-
-        return np.column_stack([lengths, n_digits])
-
-    def get_feature_names_out(self, input_features=None):
-        return np.array(["length", "number_of_digits"])
+from features import TitleStatsExtractor
 
 df = pd.read_csv("data/products.csv")
 # Originalni skup podataka je imao ekstra razmak u imenu kolone Category Label
